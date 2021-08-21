@@ -4,29 +4,34 @@ import time
 import random
 import os
 import sys
+import ctypes
 
 random.seed(os.urandom(256))
 
 dsoWindowTitle = "Drakensang Online | Das kostenlos spielbare Action-MMORPG - DSO"
-dsoWindow = pygetwindow.getWindowsWithTitle(dsoWindowTitle)[0]
-dsoWindow.maximize()
-dsoWindow.activate()
+try:
+    dsoWindow = pygetwindow.getWindowsWithTitle(dsoWindowTitle)[0]
+    dsoWindow.maximize()
+    dsoWindow.activate()
+except IndexError:
+    ctypes.windll.user32.MessageBoxW(None, "DSO wurde nicht gestartet!", "Fehler", 0)
+    sys.exit(0)
 
 screenWidth, screenHeight = pyautogui.size()
-thirdOfScreenWidth = int(screenWidth / 3)
+halfOfScreenWidth = int(screenWidth / 2)
 halfOfScreenHeight = int(screenHeight / 2)
 
 while True:
     pyautogui.moveTo(
-        screenWidth - thirdOfScreenWidth,
-        screenHeight - halfOfScreenHeight
+        halfOfScreenWidth - 100,
+        screenHeight - halfOfScreenHeight - 30 # Window title bar
     )
     pyautogui.click()
     time.sleep(random.randint(1, 60))
 
     pyautogui.moveTo(
-        screenWidth - thirdOfScreenWidth * 2,
-        screenHeight - halfOfScreenHeight
+        halfOfScreenWidth + 93,
+        screenHeight - halfOfScreenHeight - 30 # Window title bar
     )
     pyautogui.click()
     time.sleep(random.randint(1, 60))
